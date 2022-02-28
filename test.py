@@ -53,7 +53,7 @@ class ResalApiTestCase(unittest.TestCase):
         res = self.client().get('/api/v1/bestProduct')
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 400)
-        self.assertEqual(data['success'], True)
+        self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Missing file')
 
 if __name__ == "__main__":
