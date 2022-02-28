@@ -1,4 +1,4 @@
-name: Test & Build
+name: Test & Build docker
 on:
   push:
     branches:
@@ -33,4 +33,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: MjedAl/resal_assesment:latest
+          tags: mjedal/resal_assesment:latest
