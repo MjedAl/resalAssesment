@@ -3,6 +3,7 @@ import json
 import io
 from main import app
 
+
 class ResalApiTestCase(unittest.TestCase):
     def setUp(self):
         self.app = app
@@ -55,6 +56,7 @@ class ResalApiTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 400)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Missing file')
+
 
 if __name__ == "__main__":
     unittest.main()
