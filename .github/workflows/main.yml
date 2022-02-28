@@ -33,4 +33,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: MjedAl/resalAssesment:latest
+          tags: MjedAl/resal_assesment:latest
