@@ -25,6 +25,9 @@ def getBestProduct():
     fileDataFrame = fileDataFrame.sort_values('customer_average_rating',
                                               ascending=False)
     topProduct = fileDataFrame.head(1)
+    if topProduct.empty:
+        return (jsonify({'success': False, 'error': 400,
+                'message': 'File is corrupted or missing some values'}), 400)
     return jsonify({'success': True,
                     'top_product':
                         topProduct.product_name.iloc[0],

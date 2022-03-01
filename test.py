@@ -50,6 +50,42 @@ class ResalApiTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Incorrect columns')
 
+    def test_getting_top_product_missing_column(self):
+        res = self.client().get('/api/v1/bestProduct', data={
+            'csvFile': (io.BytesIO(b'id,product_name\n\
+                    132,"Massoub gift card"\n\
+                    154,"Kebdah gift card"2\n\
+                    12,"Kabab gift card"\n\
+            '), 'csvFile.csv')
+        })
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Incorrect columns')
+
+    def test_getting_top_product_wrong_file_extintion(self):
+        res = self.client().get('/api/v1/bestProduct', data={
+            'csvFile': (io.BytesIO(b'id,product_name\n\
+                    132,"Massoub gift card"\n\
+                    154,"Kebdah gift card"2\n\
+                    12,"Kabab gift card"\n\
+            '), 'csvFile.gg')
+        })
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Incorrect file extention')
+
+    def test_getting_top_product_no_products(self):
+        res = self.client().get('/api/v1/bestProduct', data={
+            'csvFile': (io.BytesIO(b'id,product_name,customer_average_rating\n\
+            '), 'csvFile.csv')
+        })
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'File is corrupted or missing some values')
+
     def test_getting_top_product_no_file(self):
         res = self.client().get('/api/v1/bestProduct')
         data = json.loads(res.data)
