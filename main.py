@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, abort, request
 import pandas as pd
 import io
+import os
 app = Flask(__name__)
 
 
@@ -10,6 +11,10 @@ def getBestProduct():
     if not csv_file or csv_file.filename == '':
         return (jsonify({'success': False, 'error': 400,
                 'message': 'Missing file'}), 400)
+    file_ext = os.path.splitext(csv_file.filename)[1]
+    if file_ext != '.csv':
+        return (jsonify({'success': False, 'error': 400,
+                'message': 'Incorrect file extention'}), 400)
     fileStream = io.StringIO(csv_file.stream.read().decode('UTF8'),
                              newline=None)
     fileDataFrame = pd.read_csv(fileStream)
